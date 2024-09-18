@@ -2,60 +2,119 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page de Test</title>
+    <title>Page avec graphique</title>
     <style>
-        
-        /* <link rel="stylesheet" href="style.css"> */
-        #graphique1, #graphique2 {
+       
+        .graph-container {
+            width: 600px;
             height: 400px;
-            width: 100%;
-            background-color: #f0f0f0; /* Couleur de fond  */
+            background-color: rgb(135, 187, 255);
+            margin: 20px 0;
+        }
+       
+       
+        nav ul li {
+            display: inline;
+            margin-right: 15px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: rgb(50, 51, 52);
+            
         }
     </style>
 </head>
 <body>
-    <!-- Menu -->
+    <div id="myplot"></div>
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
+    
     <nav>
         <ul>
-            <li><a href="#section1">Sous Partie 1</a></li>
-            <li><a href="#section2">Sous Partie 2</a></li>
+            <li><a href="#section1">selection 1</a></li>
+            <li><a href="#section2">selection 2</a></li>
         </ul>
     </nav>
 
-    <!-- Sous Partie 1 -->
+   
     <section id="section1">
-        <h2 id="titre1">Titre de la Sous Partie 1</h2>
-        <p>Contenu textuel pour la sous partie 1.</p>
+        <h2>Tp2</h2>
+        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..."</p>
+
         <figure>
-            <img src="img/image1.png" alt="Image 1">
-            <figcaption>Description de l'image 1.</figcaption>
+            <figcaption>Une règleX code une étendue verticale à une position horizontale donnée.</figcaption>
+            <div id="graph1" class="graph-container"></div>
         </figure>
-        <div id="graphique1"></div>
     </section>
+
+    <script>
+        
+        async function penguinsPromise() {
+          
+            const penguinsResponse = await fetch('./penguins.json'); 
+            const penguins = await penguinsResponse.json();
+            console.log(penguins); 
+
+            
+            const plot = Plot.plot({
+                marks: [
+                    Plot.dot(penguins, {x: "culmen_length_mm", y: "culmen_length_mm", fill: "species"})
+                ],
+                color: { legend: true }
+            });
+
+    
+            document.getElementById("graph1").append(plot);
+        }
+
+    
+        penguinsPromise();
+    </script>
+
 
    
     <section id="section2">
-        <h2 id="titre2">Titre de la Sous Partie 2</h2>
-        <p>Contenu textuel pour la sous partie 2.</p>
+        <h2>Percentogram</h2>
+        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        
+        
         <figure>
-            <img src="img/image1.png" alt="Image 2">
-            <figcaption>Description de l'image 2.</figcaption>
+            <figcaption>Le « pourcentage » : un histogramme regroupé en pourcentages de la distribution cumulée, plutôt que d'utiliser des largeurs de compartiment fixes, 13 avril 2023.</figcaption>
+            <div id="graph2" class="graph-container">
+                
+            </div>
         </figure>
-        <div id="graphique2"></div>
     </section>
 
+    <script>
+        
+        async function seattlePromise() {
+          
+            const seattleResponse = await fetch('./seattle.json'); 
+            const seattle = await seattleResponse.json();
+            console.log(seattle); 
 
-    <script type="module">
-        import { Plot } from 'https://cdn.jsdelivr.net/npm/plotly.js-dist@latest/plotly.min.js';
+            
+            const plot =Plot.plot({
+  y: {grid: true, label: "↑ Temperature (°C)"},
+  color: {scheme: "BuRd"},
+  marks: [
+    Plot.ruleY([0]),
+    Plot.ruleX(seattle, {x: "date", y1: "temp_min", y2: "temp_max", stroke: "temp_min"})
+  ]
+})
 
-        fetch('data.json')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);  // Pour afficher les données dans la console
-                Plot.newPlot('graphique1', data.graphique1);
-                Plot.newPlot('graphique2', data.graphique2);
-            });
+    
+            document.getElementById("graph2").append(plot);
+        }
+
+    
+        seattlePromise();
     </script>
+
 </body>
 </html>
