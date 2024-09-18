@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de Test</title>
+    <style>
+        /* Si tu veux utiliser un fichier externe, tu peux lier ici */
+        /* <link rel="stylesheet" href="style.css"> */
+        #graphique1, #graphique2 {
+            height: 400px;
+            width: 100%;
+            background-color: #f0f0f0; /* Couleur de fond à remplacer plus tard */
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu -->
+    <nav>
+        <ul>
+            <li><a href="#section1">Sous Partie 1</a></li>
+            <li><a href="#section2">Sous Partie 2</a></li>
+        </ul>
+    </nav>
+
+    <!-- Sous Partie 1 -->
+    <section id="section1">
+        <h2 id="titre1">Titre de la Sous Partie 1</h2>
+        <p>Contenu textuel pour la sous partie 1.</p>
+        <figure>
+            <img src="img/image1.png" alt="Image 1">
+            <figcaption>Description de l'image 1.</figcaption>
+        </figure>
+        <div id="graphique1"></div>
+    </section>
+
+    <!-- Sous Partie 2 -->
+    <section id="section2">
+        <h2 id="titre2">Titre de la Sous Partie 2</h2>
+        <p>Contenu textuel pour la sous partie 2.</p>
+        <figure>
+            <img src="images/image2.jpg" alt="Image 2">
+            <figcaption>Description de l'image 2.</figcaption>
+        </figure>
+        <div id="graphique2"></div>
+    </section>
+
+    <!-- Charger les données -->
+    <script type="module">
+        import { Plot } from 'https://cdn.jsdelivr.net/npm/plotly.js-dist@latest/plotly.min.js';
+
+        fetch('data.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);  // Pour afficher les données dans la console
+                Plot.newPlot('graphique1', data.graphique1);
+                Plot.newPlot('graphique2', data.graphique2);
+            });
+    </script>
+</body>
+</html>
